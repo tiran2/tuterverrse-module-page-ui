@@ -2,39 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Academic Tutoring Platform Design System
+All colors MUST be HSL for consistency and theming.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Academic Platform Colors - Soft Blue & Purple Theme */
+    --background: 240 20% 98%;
+    --foreground: 240 10% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 240 10% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 240 10% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Soft Blue Primary */
+    --primary: 215 85% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 215 85% 65%;
+    --primary-lighter: 215 85% 95%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Soft Purple Accent */
+    --accent-purple: 260 75% 65%;
+    --accent-purple-light: 260 75% 85%;
+    --accent-purple-lighter: 260 75% 95%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: 240 20% 96%;
+    --secondary-foreground: 240 10% 25%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 240 15% 95%;
+    --muted-foreground: 240 5% 55%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: 260 75% 95%;
+    --accent-foreground: 260 75% 25%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 15% 88%;
+    --input: 240 15% 92%;
+    --ring: 215 85% 55%;
 
     --radius: 0.5rem;
 
@@ -101,5 +110,47 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Material Type Cards */
+  .material-card {
+    @apply bg-card border border-border rounded-lg p-4 transition-all duration-200 hover:shadow-md hover:border-primary/30 cursor-pointer;
+  }
+  
+  .material-card-document {
+    @apply hover:bg-blue-50/50;
+  }
+  
+  .material-card-video {
+    @apply hover:bg-purple-50/50;
+  }
+  
+  .material-card-link {
+    @apply hover:bg-green-50/50;
+  }
+  
+  .material-card-meeting {
+    @apply hover:bg-orange-50/50;
+  }
+
+  /* Sidebar Module Item */
+  .module-item {
+    @apply p-3 rounded-lg cursor-pointer transition-all duration-200 hover:bg-accent border border-transparent;
+  }
+  
+  .module-item.active {
+    @apply bg-primary/10 border-primary/20 text-primary font-medium;
+  }
+
+  /* Section Headers */
+  .section-header {
+    @apply text-lg font-semibold text-foreground mb-4 flex items-center gap-2;
+  }
+
+  /* Animated Hover Effects */
+  .hover-lift {
+    @apply transition-transform duration-200 hover:scale-[1.02];
   }
 }
