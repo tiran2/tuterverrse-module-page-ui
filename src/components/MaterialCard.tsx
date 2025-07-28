@@ -67,7 +67,11 @@ export function MaterialCard({ material, onMaterialClick }: MaterialCardProps) {
   };
 
   return (
-    <div className={getCardClassName()} onClick={() => onMaterialClick(material)}>
+    <div 
+      id={`material-${material.id}`}
+      className={getCardClassName()} 
+      onClick={() => onMaterialClick(material)}
+    >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center space-x-3">
           <div className="p-2 rounded-lg bg-muted">

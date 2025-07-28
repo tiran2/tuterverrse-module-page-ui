@@ -1,5 +1,4 @@
-import { FileText, Play, Link, Video } from "lucide-react";
-import { MaterialSection } from "./MaterialSection";
+import { MaterialCard } from "./MaterialCard";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 
@@ -30,11 +29,6 @@ interface ModuleContentProps {
 }
 
 export function ModuleContent({ moduleData, onMaterialClick }: ModuleContentProps) {
-  const documents = moduleData.materials.filter(m => m.type === 'document');
-  const videos = moduleData.materials.filter(m => m.type === 'video');
-  const links = moduleData.materials.filter(m => m.type === 'link');
-  const meetings = moduleData.materials.filter(m => m.type === 'meeting');
-
   return (
     <main className="flex-1 p-6 overflow-y-auto">
       {/* Module Header */}
@@ -63,35 +57,19 @@ export function ModuleContent({ moduleData, onMaterialClick }: ModuleContentProp
         </div>
       </div>
 
-      {/* Materials Sections */}
+      {/* All Materials in Continuous Layout */}
       <div className="space-y-6">
-        <MaterialSection
-          title="Documents & Reading Materials"
-          materials={documents}
-          icon={<FileText className="h-5 w-5 text-blue-600" />}
-          onMaterialClick={onMaterialClick}
-        />
-
-        <MaterialSection
-          title="Video Lectures"
-          materials={videos}
-          icon={<Play className="h-5 w-5 text-purple-600" />}
-          onMaterialClick={onMaterialClick}
-        />
-
-        <MaterialSection
-          title="Additional Resources"
-          materials={links}
-          icon={<Link className="h-5 w-5 text-green-600" />}
-          onMaterialClick={onMaterialClick}
-        />
-
-        <MaterialSection
-          title="Live Sessions"
-          materials={meetings}
-          icon={<Video className="h-5 w-5 text-orange-600" />}
-          onMaterialClick={onMaterialClick}
-        />
+        <h2 className="text-2xl font-bold text-foreground mb-6">Learning Materials</h2>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {moduleData.materials.map((material) => (
+            <MaterialCard
+              key={material.id}
+              material={material}
+              onMaterialClick={onMaterialClick}
+            />
+          ))}
+        </div>
       </div>
     </main>
   );

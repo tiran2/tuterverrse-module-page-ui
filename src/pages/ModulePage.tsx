@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TopNavigation } from "@/components/TopNavigation";
 import { ModuleSidebar } from "@/components/ModuleSidebar";
+import { MaterialNavigationSidebar } from "@/components/MaterialNavigationSidebar";
 import { ModuleContent } from "@/components/ModuleContent";
 
 // Mock data
@@ -140,6 +141,22 @@ export default function ModulePage() {
     // Handle material opening logic here
   };
 
+  const handleMaterialNavigate = (materialId: string) => {
+    const element = document.getElementById(`material-${materialId}`);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+      // Add a highlight effect
+      element.style.transition = 'box-shadow 0.3s ease';
+      element.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.3)';
+      setTimeout(() => {
+        element.style.boxShadow = '';
+      }, 2000);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <TopNavigation 
@@ -152,6 +169,11 @@ export default function ModulePage() {
           modules={mockModules}
           currentModuleId={currentModuleId}
           onModuleSelect={handleModuleSelect}
+        />
+        
+        <MaterialNavigationSidebar
+          materials={mockModuleData.materials}
+          onMaterialClick={handleMaterialNavigate}
         />
         
         <ModuleContent
