@@ -1,52 +1,6 @@
-import { useState } from "react";
 import { TopNavigation } from "@/components/TopNavigation";
-import { ModuleSidebar } from "@/components/ModuleSidebar";
 import { MaterialNavigationSidebar } from "@/components/MaterialNavigationSidebar";
 import { ModuleContent } from "@/components/ModuleContent";
-
-// Mock data
-const mockModules = [
-  {
-    id: "1",
-    title: "Introduction to Programming Fundamentals",
-    status: "completed" as const,
-    progress: 100,
-    duration: "2h 30m",
-    materials: 8
-  },
-  {
-    id: "2", 
-    title: "Variables, Data Types, and Basic Operations",
-    status: "completed" as const,
-    progress: 100,
-    duration: "3h 15m",
-    materials: 12
-  },
-  {
-    id: "3",
-    title: "Control Structures: Loops and Conditionals",
-    status: "current" as const,
-    progress: 75,
-    duration: "4h 0m",
-    materials: 15
-  },
-  {
-    id: "4",
-    title: "Functions and Modular Programming",
-    status: "available" as const,
-    progress: 0,
-    duration: "3h 45m",
-    materials: 10
-  },
-  {
-    id: "5",
-    title: "Object-Oriented Programming Concepts",
-    status: "locked" as const,
-    progress: 0,
-    duration: "5h 30m",
-    materials: 18
-  }
-];
 
 const mockModuleData = {
   id: "3",
@@ -130,12 +84,6 @@ const mockModuleData = {
 };
 
 export default function ModulePage() {
-  const [currentModuleId, setCurrentModuleId] = useState("3");
-
-  const handleModuleSelect = (moduleId: string) => {
-    setCurrentModuleId(moduleId);
-  };
-
   const handleMaterialClick = (material: any) => {
     console.log("Opening material:", material);
     // Handle material opening logic here
@@ -165,12 +113,6 @@ export default function ModulePage() {
       />
       
       <div className="flex">
-        <ModuleSidebar
-          modules={mockModules}
-          currentModuleId={currentModuleId}
-          onModuleSelect={handleModuleSelect}
-        />
-        
         <MaterialNavigationSidebar
           materials={mockModuleData.materials}
           onMaterialClick={handleMaterialNavigate}
