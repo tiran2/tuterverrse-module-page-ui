@@ -61,7 +61,7 @@ export function ModuleContent({ moduleData, onMaterialClick }: ModuleContentProp
       <div className="space-y-6">
         <h2 className="text-2xl font-bold text-foreground mb-6">Learning Materials</h2>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="flex flex-col gap-4">
           {moduleData.materials.map((material) => (
             <MaterialCard
               key={material.id}

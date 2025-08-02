@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { TopNavigation } from "@/components/TopNavigation";
 import { MaterialNavigationSidebar } from "@/components/MaterialNavigationSidebar";
 import { ModuleContent } from "@/components/ModuleContent";
+import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
 
 const mockModuleData = {
   id: "3",
@@ -84,6 +87,8 @@ const mockModuleData = {
 };
 
 export default function ModulePage() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  
   const handleMaterialClick = (material: any) => {
     console.log("Opening material:", material);
     // Handle material opening logic here
@@ -112,16 +117,63 @@ export default function ModulePage() {
         courseName="Computer Science Fundamentals"
       />
       
-      <div className="flex">
-        <MaterialNavigationSidebar
-          materials={mockModuleData.materials}
-          onMaterialClick={handleMaterialNavigate}
-        />
+      <div className="flex relative">
+        {/* Sidebar Toggle Button */}
+        <Button
+          variant="outline"
+          size="icon"
+          className="fixed top-20 left-4 z-50"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
+          {sidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+        </Button>
+
+        {/* Material Navigation Sidebar */}
+        <div className={`
+          ${sidebarOpen ? 'translate-x-0 w-80' : '-translate-x-full w-0'} 
+          transition-all duration-300 ease-in-out
+          fixed lg:relative top-0 left-0 h-screen bg-background border-r border-border z-40 overflow-hidden
+        `}>
+          <div className="lg:hidden p-4 border-b border-border">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setSidebarOpen(false)}
+              className="ml-auto"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+          
+          {sidebarOpen && (
+            <MaterialNavigationSidebar
+              materials={mockModuleData.materials}
+              onMaterialClick={(materialId) => {
+                handleMaterialNavigate(materialId);
+                // Auto-close sidebar on mobile after selection
+                if (window.innerWidth < 1024) {
+                  setSidebarOpen(false);
+                }
+              }}
+            />
+          )}
+        </div>
         
-        <ModuleContent
-          moduleData={mockModuleData}
-          onMaterialClick={handleMaterialClick}
-        />
+        {/* Main Content */}
+        <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'lg:pl-0' : 'lg:pl-0'}`}>
+          <ModuleContent
+            moduleData={mockModuleData}
+            onMaterialClick={handleMaterialClick}
+          />
+        </div>
+
+        {/* Mobile Overlay */}
+        {sidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
       </div>
     </div>
   );
