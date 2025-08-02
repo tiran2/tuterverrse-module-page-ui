@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TopNavigation } from "@/components/TopNavigation";
 import { MaterialNavigationSidebar } from "@/components/MaterialNavigationSidebar";
 import { ModuleContent } from "@/components/ModuleContent";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const mockModuleData = {
   id: "3",
@@ -87,11 +88,29 @@ const mockModuleData = {
 };
 
 export default function ModulePage() {
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [materials, setMaterials] = useState(mockModuleData.materials);
+
+  // Load uploaded materials from localStorage
+  useEffect(() => {
+    const uploadedMaterials = JSON.parse(localStorage.getItem('uploadedMaterials') || '[]');
+    if (uploadedMaterials.length > 0) {
+      setMaterials([...mockModuleData.materials, ...uploadedMaterials]);
+    }
+  }, []);
   
   const handleMaterialClick = (material: any) => {
     console.log("Opening material:", material);
-    // Handle material opening logic here
+    
+    // Handle different material types
+    if (material.type === 'link' && material.url) {
+      // Open external links in new tab
+      window.open(material.url, '_blank');
+    } else if (material.url && material.url !== '#') {
+      // Open other materials in new tab
+      window.open(material.url, '_blank');
+    }
   };
 
   const handleMaterialNavigate = (materialId: string) => {
@@ -128,6 +147,16 @@ export default function ModulePage() {
           {sidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
         </Button>
 
+        {/* Upload Materials Button */}
+        <Button
+          variant="default"
+          className="fixed top-20 right-4 z-50"
+          onClick={() => navigate('/uploadmaterials')}
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Upload Materials
+        </Button>
+
         {/* Material Navigation Sidebar */}
         <div className={`
           ${sidebarOpen ? 'translate-x-0 w-80' : '-translate-x-full w-0'} 
@@ -147,7 +176,7 @@ export default function ModulePage() {
           
           {sidebarOpen && (
             <MaterialNavigationSidebar
-              materials={mockModuleData.materials}
+              materials={materials}
               onMaterialClick={(materialId) => {
                 handleMaterialNavigate(materialId);
                 // Auto-close sidebar on mobile after selection
@@ -162,7 +191,7 @@ export default function ModulePage() {
         {/* Main Content */}
         <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'lg:pl-0' : 'lg:pl-0'}`}>
           <ModuleContent
-            moduleData={mockModuleData}
+            moduleData={{...mockModuleData, materials}}
             onMaterialClick={handleMaterialClick}
           />
         </div>
